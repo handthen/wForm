@@ -1,9 +1,9 @@
 {
-  "name": "webpack-vue",
+  "name": "w-form-hand",
   "version": "1.0.0",
   "description": "",
   "main": "dist/wForm.js",
-  "config": {},
+  "title": "wFormHand",
   "files": [
     "src",
     "dist"
@@ -19,7 +19,7 @@
     "vue"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.19.3",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
