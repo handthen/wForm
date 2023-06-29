@@ -1,0 +1,49 @@
+{
+  "name": "webpack-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/wForm.js",
+  "config": {},
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "dev:v2": "webpack serve --config=webpack.config.js",
+    "build": "webpack --config=webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "可配置",
+    "Form",
+    "vue"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.19.4",
+    "async-validator": "^4.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.43.0",
+    "style-loader": "^3.3.1",
+    "vue": "^2.7.14",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "devDependencies": {
+    "@nuxt/friendly-errors-webpack-plugin": "^2.5.2",
+    "babel-loader": "^8.2.5",
+    "mini-css-extract-plugin": "^2.7.6",
+    "sass": "^1.55.0",
+    "sass-loader": "^10.0.1",
+    "url-loader": "^4.1.1",
+    "vue-loader": "^15.10.1",
+    "vue-template-compiler": "^2.7.11",
+    "webpack-merge": "^5.9.0",
+    "webpackbar": "^5.0.2"
+  }
+}
