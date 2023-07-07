@@ -1,7 +1,7 @@
 {
   "name": "wformhand",
-  "version": "1.1.1",
-  "description": "适用 vue 的form组件",
+  "version": "1.0.3",
+  "description": "",
   "main": "dist/wformhand.js",
   "title": "wformhand",
   "files": [

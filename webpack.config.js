@@ -1,19 +1,19 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const webpack = require("webpack")
 const Friendly = require("@nuxt/friendly-errors-webpack-plugin")
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const webpackBar = require('webpackbar')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
+    mode: 'production',
     entry: {
-        "wForm": __dirname + "/src/main.js"
+        "wformhand": __dirname + "/src/main.js"
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'wForm.js',
-        library: 'wForm', // 模块名
+        filename: 'wformhand.js',
+        library: 'wformhand', // 模块名
         libraryTarget: 'umd', // 将你的 library 暴露为所有的模块定义下都可运行的方式。这样你就可以直接引入模块，模块名是library的值
     },
     devServer: {

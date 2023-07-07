@@ -164,7 +164,7 @@ export default {
           this.bindEvent,
           true
         );
-      } catch {}
+      } catch { }
     },
   },
 };

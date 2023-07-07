@@ -20,6 +20,11 @@ export default {
       default: "div",
     },
   },
+  data(){
+    return {
+        classList:[]
+    }
+  },
   computed: {
     colStyle() {
       let parent = this.$parent;
@@ -38,23 +43,23 @@ export default {
       return "w-col-" + this.span;
     },
   },
-  created(){
-    this.initClass()
+  created() {
+    this.initClass();
   },
-  methods:{
-    initClass(){
-        ['xs','sm','md','lg','xl'].forEach(v=>{
-            if(typeof this[v]==='number'){
-                this.classList.push(`w_col_${v}_${this[v]}`)
-            }
-        })
-    }
+  methods: {
+    initClass() {
+      ["xs", "sm", "md", "lg", "xl"].forEach((v) => {
+        if (typeof this[v] === "number") {
+          this.classList.push(`w_col_${v}_${this[v]}`);
+        }
+      });
+    },
   },
   render(h) {
     return h(
       this.tag,
       {
-        class: [this.colClass],
+        class: [this.colClass, ...this.classList],
         style: this.colStyle,
       },
       this.$slots.default
@@ -63,10 +68,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-$w_sm: 768px;
-$w_md: 992px;
-$w_lg: 1200px;
-$w_xl: 1920px;
+$w_sm: 768px !default;
+$w_md: 992px !default;
+$w_lg: 1200px !default;
+$w_xl: 1920px !default;
 $w_m: (
   "xs": (
     max-width: $w_sm - 1,
@@ -98,27 +103,27 @@ $w_m: (
     }
   }
 }
-@mixin for($t) {
-  @for $i from 0 through 24 {
+@mixin for($t){
+    @for $i from 0 through 24 {
     .w_col_#{$t}_#{$i} {
-      flex: calc(100% / 24 * #{$i});
+      flex:  calc(100% / 24 * #{$i});
       max-width: calc(100% / 24 * #{$i});
     }
   }
 }
 @include Col(xs) {
-  @include for("xs");
+  @include for('xs')
 }
 @include Col(sm) {
-  @include for("sm");
+  @include for('sm')
 }
 @include Col(md) {
-  @include for("md");
+  @include for('md')
 }
 @include Col(lg) {
-  @include for("lg");
+  @include for('lg')
 }
 @include Col(xl) {
-  @include for("xl");
+  @include for('xl')
 }
 </style>

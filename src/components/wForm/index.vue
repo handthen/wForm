@@ -14,6 +14,15 @@
         </template>
       </template>
     </w-row>
+
+    <template v-if="$slots['footer']">
+      <slot name="footer" :data="form"></slot>
+    </template>
+    <w-row v-else justify="end">
+      <w-col :span="3">
+        <el-button type="primary" @click="submit">确认</el-button>
+      </w-col>
+    </w-row>
   </m-form>
 </template>
 <script>

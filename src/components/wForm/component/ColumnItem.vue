@@ -1,5 +1,5 @@
 <template>
-  <w-col :span="config.columnSpan" :offset="config.offset" :v-bind="config.respond">
+  <w-col :span="config.columnSpan" :offset="config.offset" v-bind="config.respond">
     <m-form-item :label="config.label" :prop="config.key" :label-width="config.labelWidth" :rules="config.rules"
       :required="config.required" :showMessage="config.showMessage">
       <component :style="config.styleItem" :is="config.name" :value="currentValue" @input="updataValue"
