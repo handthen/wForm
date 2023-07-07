@@ -37,3 +37,10 @@
     left: 0;
     margin-left: 12px;
   }
+  .valid_error{
+    input,select{
+      border: none;
+      outline-style: none;
+      border: 1px solid #f56c6c;
+    }
+  }

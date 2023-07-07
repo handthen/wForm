@@ -1,21 +1,18 @@
 <template>
   <div class="w_form_item" :class="{ w_form_inline: MForm.inline }">
     <label-warp :class="{ is_required: isRequired }" :labelWidth="labelWidth">
-      <label
-        class="w_form_item_label"
-        :style="{ width: labelWidth || MForm.labelWidth, textAlign: align }"
-      >
+      <label class="w_form_item_label" :style="{ width: labelWidth || MForm.labelWidth, textAlign: align }">
         {{ label }}
       </label>
     </label-warp>
-    <div class="w_form_item__content">
+    <div class="w_form_item__content"
+      :class="{ 'valid_error': validateState == 'error' && showMessage && MForm.showMessage }">
       <slot></slot>
-      <div
-        class="m_form_error_text"
-        v-if="validateState == 'error' && showMessage && MForm.showMessage"
-      >
-        {{ validateMessage }}
-      </div>
+      <transition name="el-zoom-in-top">
+        <div class="m_form_error_text" v-if="validateState == 'error' && showMessage && MForm.showMessage">
+          {{ validateMessage }}
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -53,6 +50,7 @@ export default {
       validateState: "",
       validateMessage: "",
       validateDisabled: false,
+      target: null,
     };
   },
   inject: ["MForm"],
@@ -95,14 +93,16 @@ export default {
   },
   mounted() {
     this.$dispatch("MForm", "add_filed", this);
+    this.$slots.default[0].elm.addEventListener("click", this.bindEvent, true); // 注册事件 ==》验证时机
   },
   // eslint-disable-next-line vue/no-deprecated-destroyed-lifecycle
   beforeDestroy() {
+    this.clearEnvent();
     this.$dispatch("MForm", "remove_filed", this);
   },
   methods: {
     validator(trigger, callback) {
-      const rules = [...this.getRulesTargger(trigger)];
+      const rules = this.$clone([...this.getRulesTargger(trigger)]);
       rules.forEach((v) => {
         delete v.trigger;
       });
@@ -120,17 +120,51 @@ export default {
         }
       );
     },
-    clearValidate() {
-      this.validateState = "";
-      this.validateMessage = "";
-      this.validateDisabled= false
-    },
     getProp(target, str) {
       if (!str || !target) return;
       const strArr = str.split(".");
       return strArr.reduce((t, s) => {
         return t[s];
       }, target);
+    },
+    async triggerFn(e) {
+      await this.sleep(130);
+      this.validator(e.type);
+    },
+    clearEnvent() {
+      if (this.target) {
+        this.target.removeEventListener("blur", this.triggerFn);
+        this.target.removeEventListener("input", this.triggerFn);
+        this.target.removeEventListener("change", this.triggerFn);
+      }
+    },
+    async sleep(time) {
+      return new Promise((res) => {
+        setTimeout(() => {
+          res(1);
+        }, time);
+      });
+    },
+    bindEvent(e) {
+      try {
+        this.target = e.target;
+        this.getRules.forEach((v) => {
+          if (Array.isArray(v.trigger)) {
+            v.trigger.forEach(
+              (tg) => this.target.addEventListener(tg, this.triggerFn),
+              false
+            );
+          } else {
+            v.trigger &&
+              this.target.addEventListener(v.trigger, this.triggerFn, false);
+          }
+        });
+        this.$slots.default[0].elm.removeEventListener(
+          "click",
+          this.bindEvent,
+          true
+        );
+      } catch {}
     },
   },
 };

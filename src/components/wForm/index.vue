@@ -1,40 +1,18 @@
 <template>
-  <m-form ref="form" :label-width="formConfig.labelWidth" :model="form">
+  <m-form ref="form" :label-width="formConfig.labelWidth" :model="form" :showMessage="formConfig.showMessage">
     <w-row v-for="(itemRow, index) in formList" :key="index">
       <template v-for="itemcolumn in itemRow">
-        <w-col
-          :key="itemcolumn.key"
-          v-if="$slots[itemcolumn.key]"
-          :span="itemcolumn.columnSpan"
-        >
-          <m-form-item
-            :label="itemcolumn.label"
-            :prop="itemcolumn.key"
-            :rules="itemcolumn.rules"
-            :label-width="itemcolumn.labelWidth"
-            :required="itemcolumn.required"
-          >
+        <w-col :key="itemcolumn.key" v-if="$slots[itemcolumn.key]" :span="itemcolumn.columnSpan">
+          <m-form-item :label="itemcolumn.label" :prop="itemcolumn.key" :rules="itemcolumn.rules"
+            :label-width="itemcolumn.labelWidth" :required="itemcolumn.required">
             <slot :name="itemcolumn.key" :data="itemcolumn"></slot>
           </m-form-item>
         </w-col>
         <template v-else>
-          <column-item
-            :key="itemcolumn.key"
-            :config="itemcolumn"
-            v-model="form[itemcolumn.key]"
-          >
+          <column-item :key="itemcolumn.key" :config="itemcolumn" v-model="form[itemcolumn.key]">
           </column-item>
         </template>
       </template>
-    </w-row>
-
-    <template v-if="$slots['footer']">
-      <slot name="footer" :data="form"></slot>
-    </template>
-    <w-row v-else justify="end">
-      <w-col :span="3">
-        <el-button type="primary" @click="submit">确认</el-button>
-      </w-col>
     </w-row>
   </m-form>
 </template>
@@ -42,7 +20,7 @@
 import ColumnItem from "./component/ColumnItem.vue";
 import wRow from "@/components/wRow";
 import wCol from "@/components/wCol";
-import {MForm} from '@/components/form'
+import { MForm } from '@/components/form'
 export default {
   name: "WForm",
   components: {
@@ -59,7 +37,7 @@ export default {
   props: {
     formData: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     columnList: {
       type: Array,
@@ -67,7 +45,7 @@ export default {
     },
     formConfig: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
   },
   data() {
@@ -145,11 +123,12 @@ export default {
         this.$emit("submit", vaild, this.form);
       });
     },
-    async validate() {
-      const vaild = await this.$refs["form"].validate();
+    async validate(callback) {
+      const vaild = await this.$refs["form"].validate(callback);
       return vaild;
     },
   },
 };
 </script>
-<style></style>
+<style>
+</style>

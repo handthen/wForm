@@ -1,7 +1,7 @@
 import wFormVue from './components/wForm'
 
 function install(vue) {
-    vue.component('wForm', wFormVue)
+    vue.component('wFormHand', wFormVue)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
@@ -11,6 +11,6 @@ export default {
     install
 }
 
-export const wForm = wFormVue
+export const wFormHand = wFormVue
 
 

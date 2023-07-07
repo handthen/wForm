@@ -48,9 +48,7 @@ module.exports = {
             },
             {
                 test: /\.(css|scss)/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader
-                }, "css-loader", "sass-loader"],
+                use: ['style-loader', "css-loader", "sass-loader"],
             },
             {
                 test: /\.(js)/,
@@ -69,11 +67,10 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin({
-            filename: 'wForm.css'
-        }),
+        // new MiniCssExtractPlugin({
+        //     filename: 'wformhand.css'
+        // }),
         new VueLoaderPlugin(),
-        new EslintWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         // @ts-ignore
         new webpackBar({
