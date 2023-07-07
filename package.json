@@ -18,6 +18,10 @@
     "Form",
     "vue"
   ],
+  "repository": {
+    "type": "gitee",
+    "url": "gitee+https://gitee.com/gurad-then/w-form.git"
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {

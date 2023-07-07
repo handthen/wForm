@@ -3,7 +3,7 @@
     <label-warp :class="{ is_required: isRequired }" :labelWidth="labelWidth">
       <label
         class="w_form_item_label"
-        :style="{ width: labelWidth || MForm.labelWidth,textAlign:align }"
+        :style="{ width: labelWidth || MForm.labelWidth, textAlign: align }"
       >
         {{ label }}
       </label>
@@ -43,10 +43,10 @@ export default {
       type: Boolean,
       default: true,
     },
-    align:{
-        type:String,
-        default:'right'
-    }
+    align: {
+      type: String,
+      default: "right",
+    },
   },
   data() {
     return {
@@ -119,6 +119,11 @@ export default {
           callback && callback(this.validateMessage, result);
         }
       );
+    },
+    clearValidate() {
+      this.validateState = "";
+      this.validateMessage = "";
+      this.validateDisabled= false
     },
     getProp(target, str) {
       if (!str || !target) return;

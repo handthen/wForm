@@ -1,5 +1,5 @@
 <template>
-  <w-col :span="config.columnSpan" :offset="config.offset">
+  <w-col :span="config.columnSpan" :offset="config.offset" :v-bind="config.respond">
     <m-form-item
       :label="config.label"
       :prop="config.key"
