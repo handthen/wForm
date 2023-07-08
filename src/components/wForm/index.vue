@@ -14,6 +14,15 @@
         </template>
       </template>
     </w-row>
+
+    <template v-if="$slots['footer']">
+      <slot name="footer" :data="form"></slot>
+    </template>
+    <w-row v-else justify="end">
+      <w-col :span="3">
+        <el-button type="primary" @click="submit">确认</el-button>
+      </w-col>
+    </w-row>
   </m-form>
 </template>
 <script>
@@ -54,17 +63,10 @@ export default {
       form: {},
     };
   },
-  watch: {
-    form: {
-      handler() {
-        this.$emit("update:form", this.form);
-      },
-      deep: true,
-    },
-  },
   created() {
     this.formList = this.initColumn();
     this.form = this.formData;
+    this.$on('set_from', this.setValue)
   },
   methods: {
     initColumn() {
@@ -118,15 +120,20 @@ export default {
       }
       return false;
     },
-    submit() {
-      this.$refs["form"].validate().then((vaild) => {
-        this.$emit("submit", vaild, this.form);
-      });
-    },
     async validate(callback) {
       const vaild = await this.$refs["form"].validate(callback);
       return vaild;
     },
+    clearValid(props) {
+      this.$refs['form'].clearValid(props)
+    },
+    resetValid(props) {
+      this.$refs['form'].resetValid(props)
+    },
+    setValue(key, val) {
+      this.$set(this.form, key, val)
+      this.$set(this.formData, key, val)
+    }
   },
 };
 </script>

@@ -9,7 +9,9 @@ Vue.use(wFormHand)
 // 局部注册
 import {wFormHand} from "wformhand";
 
-
+export default {
+  components:{wFormHand}
+}
 <w-form-hand :formData.sync="form" :columnList="columnList"  :formConfig="formConfig">
 </w-form-hand>
 
@@ -27,6 +29,13 @@ import {wFormHand} from "wformhand";
           key: "name",
           name: "input",
           columnSpan: 6, // 列宽
+          respond:{ // 不同分辨率
+            // xs:6, <768px
+            // sm:6, >=768px
+            // md:6, >=992px
+            // lg:6, >=1200px
+            // xl:6  >=1920px
+          },
           placeholder: "请输入内容",
           showMessage:false,
         },
@@ -111,6 +120,8 @@ submit(){
    .catch(()=>{
         console.log("验证失败")
    })
- 
 }
+
+this.$refs['wForm'].resetValid() // 移除校验，重置至初始值  resetValid(),resetValid('key'),resetValid(['ket1','key2'])
+this.$refs['wForm'].clearValid()  // 移除校验,参数同上
 ```

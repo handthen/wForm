@@ -1,7 +1,7 @@
 {
   "name": "wformhand",
-  "version": "1.1.1",
-  "description": "适用 vue 的form组件",
+  "version": "1.1.3",
+  "description": "",
   "main": "dist/wformhand.js",
   "title": "wformhand",
   "files": [
@@ -16,6 +16,10 @@
     "Form",
     "vue"
   ],
+  "repository": {
+    "type": "gitee",
+    "url": "gitee+https://gitee.com/gurad-then/w-form.git"
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {
