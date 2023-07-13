@@ -63,17 +63,10 @@ export default {
       form: {},
     };
   },
-  watch: {
-    form: {
-      handler() {
-        this.$emit("update:form", this.form);
-      },
-      deep: true,
-    },
-  },
   created() {
     this.formList = this.initColumn();
     this.form = this.formData;
+    this.$on('set_from', this.setValue)
   },
   methods: {
     initColumn() {
@@ -127,15 +120,20 @@ export default {
       }
       return false;
     },
-    submit() {
-      this.$refs["form"].validate().then((vaild) => {
-        this.$emit("submit", vaild, this.form);
-      });
-    },
     async validate(callback) {
       const vaild = await this.$refs["form"].validate(callback);
       return vaild;
     },
+    clearValid(props) {
+      this.$refs['form'].clearValid(props)
+    },
+    resetValid(props) {
+      this.$refs['form'].resetValid(props)
+    },
+    setValue(key, val) {
+      this.$set(this.form, key, val)
+      this.$set(this.formData, key, val)
+    }
   },
 };
 </script>

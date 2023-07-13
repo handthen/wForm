@@ -120,6 +120,8 @@ submit(){
    .catch(()=>{
         console.log("验证失败")
    })
- 
 }
+
+this.$refs['wForm'].resetValid() // 移除校验，重置至初始值  resetValid(),resetValid('key'),resetValid(['ket1','key2'])
+this.$refs['wForm'].clearValid()  // 移除校验,参数同上
 ```

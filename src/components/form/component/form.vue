@@ -70,6 +70,22 @@ export default {
 
       if (promise) return promise;
     },
+    clearValid(props) {
+      props = Array.isArray(props) ? props : props ? [props] : undefined;
+      this.rulesKey.forEach((flied) => {
+        if (!props || props.includes(flied.prop)) {
+          flied.clearValid();
+        }
+      });
+    },
+    resetValid(props) {
+      props = Array.isArray(props) ? props : props ? [props] : undefined;
+      this.rulesKey.forEach((flied) => {
+        if (!props || props.includes(flied.prop)) {
+          flied.resetValid();
+        }
+      });
+    },
   },
   render(h) {
     return h(

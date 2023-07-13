@@ -120,6 +120,18 @@ export default {
         }
       );
     },
+    clearValid() {
+      this.validateState = ""
+      this.validateMessage = ""
+      this.validateDisabled = true
+    },
+    resetValid() {
+      this.$dispatch('WForm', 'set_from', this.prop, this.initValue)
+      this.clearValid()
+      this.$nextTick(() => {
+        this.$forceUpdate()
+      })
+    },
     getProp(target, str) {
       if (!str || !target) return;
       const strArr = str.split(".");
@@ -128,7 +140,10 @@ export default {
       }, target);
     },
     async triggerFn(e) {
-      await this.sleep(130);
+      await this.sleep(110);
+      if (this.validateDisabled) {
+        return this.validateDisabled = false
+      }
       this.validator(e.type);
     },
     clearEnvent() {
@@ -141,7 +156,7 @@ export default {
     async sleep(time) {
       return new Promise((res) => {
         setTimeout(() => {
-          res(1);
+          res(undefined);
         }, time);
       });
     },

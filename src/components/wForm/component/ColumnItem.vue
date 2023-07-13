@@ -36,9 +36,6 @@ export default {
     };
   },
   inject: ["WForm"],
-  created() {
-    this.currentValue = this.value;
-  },
   computed: {
     isRC() {
       const names = ["radio", "checkbox"];
@@ -79,11 +76,24 @@ export default {
       return [attrs, listeners];
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.target = document.querySelector('#w_' + this.config.key)
+    })
+  },
   watch: {
-    currentValue() {
-      if (this.value != this.currentValue) {
-        this.$emit("input", this.currentValue);
-      }
+    value: {
+      handler() {
+        if (this.target) {
+          if (this.target.$options && this.target.$options._componentTag) {
+            return this.currentValue = this.value
+          } else {
+            this.target.value = this.value
+          }
+        }
+        this.currentValue = this.value
+      },
+      immediate: true
     },
   },
   methods: {
