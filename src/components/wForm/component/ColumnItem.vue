@@ -1,12 +1,37 @@
 <template>
-  <w-col :span="config.columnSpan" :offset="config.offset" v-bind="config.respond">
-    <m-form-item :label="config.label" :prop="config.key" :label-width="config.labelWidth" :rules="config.rules"
-      :required="config.required" :showMessage="config.showMessage">
-      <component :style="config.styleItem" :is="config.name" :value="currentValue" @input="updataValue"
-        v-bind="getAttrs[0]" v-on="getAttrs[1]">
+  <w-col
+    :span="config.columnSpan"
+    :offset="config.offset"
+    v-bind="config.respond"
+  >
+    <m-form-item
+       ref="formItem"
+      :label="config.label"
+      :prop="config.key"
+      :label-width="config.labelWidth"
+      :rules="config.rules"
+      :required="config.required"
+      :showMessage="config.showMessage"
+    >
+      <component
+        :id="'w_' + config.key"
+        :style="config.styleItem"
+        :is="config.name"
+        :value="currentValue"
+        @input="updataValue"
+        @blur="blur"
+        @change="change"
+        v-bind="getAttrs[0]"
+        v-on="getAttrs[1]"
+      >
         <template v-if="config.optionName">
-          <component :is="config.optionName" v-for="(item, index) in config.options" :key="index"
-            :value="isRC ? '' : item.value" :label="isRC ? item.value : item.label">
+          <component
+            :is="config.optionName"
+            v-for="(item, index) in config.options"
+            :key="index"
+            :value="isRC ? '' : item.value"
+            :label="isRC ? item.value : item.label"
+          >
             {{ item.label }}
           </component>
         </template>
@@ -24,9 +49,11 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
-    value: [String, Number, Array],
+    value: {
+      default: "",
+    },
   },
   mixins: [mix_bs],
   data() {
@@ -59,6 +86,7 @@ export default {
         "label",
         "styleItem",
         "optionName",
+        "required"
       ];
       Object.keys(attrs).forEach((v) => {
         if (typeof attrs[v] == "function") {
@@ -78,22 +106,22 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.target = document.querySelector('#w_' + this.config.key)
-    })
+      this.target = document.querySelector("#w_" + this.config.key);
+    });
   },
   watch: {
     value: {
       handler() {
         if (this.target) {
           if (this.target.$options && this.target.$options._componentTag) {
-            return this.currentValue = this.value
+            return (this.currentValue = this.value);
           } else {
-            this.target.value = this.value
+            this.target.value = this.value;
           }
         }
-        this.currentValue = this.value
+        this.currentValue = this.value;
       },
-      immediate: true
+      immediate: true,
     },
   },
   methods: {
@@ -101,8 +129,12 @@ export default {
       if (
         Object.prototype.toString.call(e).slice(8, -1).indexOf("Event") != -1
       ) {
+        this.$dispatch("WForm", "set_from", this.config.key, e.target.value);
+        this.$refs['formItem'].$emit('valid_filed',{type:'input'})
         return (this.currentValue = e.target.value);
       }
+      this.$dispatch("WForm", "set_from", this.config.key, e);
+      this.$refs['formItem'].$emit('valid_filed',{type:'input'})
       this.currentValue = e;
     },
     getSelf() {
@@ -112,8 +144,13 @@ export default {
       }
       this.Pself = parent.$parent;
     },
+    blur(e){
+      this.$refs['formItem'].$emit('valid_filed',{type:'blur'})
+    },
+    change(e){
+      this.$refs['formItem'].$emit('valid_filed',{type:'change'})
+    }
   },
 };
 </script>
-<style>
-</style>
+<style></style>

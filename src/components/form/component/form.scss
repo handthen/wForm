@@ -3,9 +3,10 @@
 }
 
 .w_form_item {
+  position: relative;
   display: block;
   margin-bottom: 22px;
-  margin-left: 12px;
+  margin-right: 12px;
 
   .w_form_item_label {
     line-height: 40px;
@@ -26,8 +27,11 @@
 
 .w_form_inline {
   display: inline-block;
-}
 
+  // &>.row {
+  //   display: inline-block !important;
+  // }
+}
 .is_required::before {
   content: "*";
   color: #f56c6c;
@@ -45,6 +49,7 @@
 }
 
 .valid_error {
+
   input,
   select {
     border: none;

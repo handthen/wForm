@@ -1,8 +1,9 @@
 <template>
-  <m-form ref="form" :label-width="formConfig.labelWidth" :model="form" :showMessage="formConfig.showMessage">
-    <w-row v-for="(itemRow, index) in formList" :key="index">
+  <m-form ref="form" :label-width="formConfig.labelWidth" :model="form" :showMessage="formConfig.showMessage"
+    :inline="formConfig.inline">
+    <w-row v-for="(itemRow, index) in formList" :key="index" :gutter="formConfig.gutter">
       <template v-for="itemcolumn in itemRow">
-        <w-col :key="itemcolumn.key" v-if="$slots[itemcolumn.key]" :span="itemcolumn.columnSpan">
+        <w-col :key="itemcolumn.key" v-if="$scopedSlots[itemcolumn.key]" :span="itemcolumn.columnSpan">
           <m-form-item :label="itemcolumn.label" :prop="itemcolumn.key" :rules="itemcolumn.rules"
             :label-width="itemcolumn.labelWidth" :required="itemcolumn.required">
             <slot :name="itemcolumn.key" :data="itemcolumn"></slot>
@@ -14,29 +15,21 @@
         </template>
       </template>
     </w-row>
-
-    <template v-if="$slots['footer']">
-      <slot name="footer" :data="form"></slot>
-    </template>
-    <w-row v-else justify="end">
-      <w-col :span="3">
-        <el-button type="primary" @click="submit">确认</el-button>
-      </w-col>
-    </w-row>
   </m-form>
 </template>
 <script>
 import ColumnItem from "./component/ColumnItem.vue";
 import wRow from "@/components/wRow";
 import wCol from "@/components/wCol";
-import { MForm } from '@/components/form'
+import { MForm, MFormItem } from '@/components/form'
 export default {
   name: "WForm",
   components: {
     ColumnItem,
     wRow,
     wCol,
-    MForm
+    MForm,
+    MFormItem
   },
   provide() {
     return {
@@ -46,15 +39,15 @@ export default {
   props: {
     formData: {
       type: Object,
-      default: () => { },
+      default: () => ({}),
     },
     columnList: {
       type: Array,
-      default: () => [],
+      default: () => ([]),
     },
     formConfig: {
       type: Object,
-      default: () => { },
+      default: () => ({}),
     },
   },
   data() {
@@ -65,7 +58,7 @@ export default {
   },
   created() {
     this.formList = this.initColumn();
-    this.form = this.formData;
+    this.form = this.formData
     this.$on('set_from', this.setValue)
   },
   methods: {
@@ -77,12 +70,13 @@ export default {
       for (let i = 0; i < this.columnList.length; i++) {
         const item = this.columnList[i];
         // 如果该项没有设置 columnSpan 则默认占该行剩余空间
-        if (!this.isColumnSpan(item.columnSpan)) {
-          const remaColumn = newColumnItem.reduce(
-            (a, b) => a + b.columnSpan,
-            0
-          );
-          item.columnSpan = remaColumn == 0 ? 24 : 24 - remaColumn;
+        if (!this.isColumnSpan(item.columnSpan) && !this.formConfig.inline) {
+          item.columnSpan = 24
+          // const remaColumn = newColumnItem.reduce(
+          //   (a, b) => a + b.columnSpan,
+          //   0
+          // );
+          // item.columnSpan = remaColumn == 0 ? 24 : 24 - remaColumn;
           newColumnItem.push(item);
           newColumnList.push(newColumnItem);
           newColumnItem = [];
@@ -120,8 +114,8 @@ export default {
       }
       return false;
     },
-    async validate(callback) {
-      const vaild = await this.$refs["form"].validate(callback);
+    async validate() {
+      const vaild = await this.$refs["form"].validate();
       return vaild;
     },
     clearValid(props) {

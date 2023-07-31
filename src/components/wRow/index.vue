@@ -12,9 +12,11 @@ export default {
       default: "div",
     },
   },
+  inject: ['WForm'],
   computed: {
     rowStyle() {
       return {
+        boxSizing: "border-box",
         marginLeft: -this.gutter / 2 + "px",
         marginRight: -this.gutter / 2 + "px",
         justifyContent: this.justify,

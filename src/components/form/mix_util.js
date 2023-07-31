@@ -17,6 +17,7 @@ class Emitter {
       this.off(eventName, fn)
     }
     this.on(eventName, fn)
+    console.log(this.EventMap,"this.EventMap")
   }
   emit(eventName, ...arg) {
     if (this.EventMap.has(eventName)) {
@@ -30,6 +31,7 @@ class Emitter {
     if (this.EventMap.has(eventName)) {
       const EventList = this.EventMap.get(eventName)
       EventList.splice(EventList.findIndex(v => v == callback), 1)
+      console.log(EventList,'off')
       this.EventMap.set(eventName, EventList)
     }
   }
